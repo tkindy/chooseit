@@ -1,0 +1,7 @@
+.gradle/
+.idea/misc.xml
+.idea/workspace.xml
+.idea/.name
+.idea/kotlinc.xml
+out/
+build/
