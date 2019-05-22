@@ -6,7 +6,7 @@ import io.ktor.locations.Location
 @KtorExperimentalLocationsAPI
 @Location("/room/{id}")
 data class RoomRoute(val id: String) {
-    @Location("/status")
+    @Location("/")
     data class Status(val room: RoomRoute)
 
     @Location("/flip")
