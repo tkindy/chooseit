@@ -34,7 +34,7 @@ fun main() {
         password = "password"
     )
 
-    val server = embeddedServer(Netty, port = 8080) {
+    val server = embeddedServer(Netty, port = System.getProperty("server.port").toInt()) {
         install(ContentNegotiation) {
             gson { }
         }
