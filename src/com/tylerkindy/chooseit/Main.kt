@@ -28,10 +28,8 @@ import kotlin.random.Random
 @KtorExperimentalLocationsAPI
 fun main() {
     Database.connect(
-        "jdbc:postgresql://localhost:32768/chooseit",
-        driver = "org.postgresql.Driver",
-        user = "chooseit_user",
-        password = "password"
+        System.getenv("JDBC_DATABASE_URL"),
+        driver = "org.postgresql.Driver"
     )
 
     val server = embeddedServer(Netty, port = System.getProperty("server.port").toInt()) {
