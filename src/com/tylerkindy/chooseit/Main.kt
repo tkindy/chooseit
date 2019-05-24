@@ -4,6 +4,7 @@ import com.tylerkindy.chooseit.model.Room
 import com.tylerkindy.chooseit.model.Rooms
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
@@ -38,6 +39,9 @@ fun main() {
         }
         install(CallLogging)
         install(Locations)
+        install(CORS) {
+            anyHost()
+        }
 
         routing {
             get("/rooms") {
