@@ -1,6 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.liquibase.gradle.Activity
+import org.liquibase.gradle.LiquibaseExtension
 
 val kotlinVersion: String by project
 val ktorVersion: String by project
@@ -20,8 +22,9 @@ plugins {
     kotlin("jvm") version Versions.kotlin
     kotlin("kapt") version Versions.kotlin
     application
-    id("com.github.johnrengelman.shadow") version Versions.shadow
-    id("com.github.ben-manes.versions") version Versions.versions
+    id("com.github.johnrengelman.shadow") version Versions.Plugins.shadow
+    id("com.github.ben-manes.versions") version Versions.Plugins.versions
+    id("org.liquibase.gradle") version Versions.Plugins.liquibase
 }
 
 group = "chooseit-backend"
@@ -57,6 +60,8 @@ repositories {
     maven { setUrl("https://kotlin.bintray.com/kotlinx") }
 }
 
+val liquibaseRuntime = configurations.named("liquibaseRuntime")
+
 dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.ktorNetty)
@@ -75,6 +80,9 @@ dependencies {
     implementation(Libs.postgresql)
     implementation(Libs.ktorm)
 
+    liquibaseRuntime(Libs.liquibaseCore)
+    liquibaseRuntime(Libs.postgresql)
+
     implementation(Libs.dagger)
     kapt(Libs.daggerCompiler)
 
@@ -92,4 +100,15 @@ tasks.named("dependencyUpdates", DependencyUpdatesTask::class) {
     rejectVersionIf {
         isNonStable(candidate.version)
     }
+}
+
+the<LiquibaseExtension>().activities {
+    val main = Activity("main").apply {
+        arguments = (arguments as Map<String, String>) + mapOf(
+            "changeLogFile" to "db/changelog.sql",
+            "url" to System.getenv("JDBC_DATABASE_URL")
+        )
+    }
+
+    add(main)
 }
