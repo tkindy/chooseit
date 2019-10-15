@@ -6,6 +6,7 @@ buildscript {
 
 plugins {
     id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
+    id 'org.jetbrains.kotlin.kapt' version "$kotlin_version"
     id 'application'
     id 'com.github.johnrengelman.shadow' version "$shadow_version"
     id "com.github.ben-manes.versions" version "$versions_version"
@@ -64,6 +65,10 @@ dependencies {
     implementation "io.ktor:ktor-client-gson:$ktor_version"
     implementation "org.postgresql:postgresql:$postgresql_version"
     implementation "me.liuwj.ktorm:ktorm-core:$ktorm_version"
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 }
 
