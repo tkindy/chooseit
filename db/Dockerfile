@@ -3,4 +3,4 @@ FROM postgres
 ENV POSTGRES_PASSWORD=admin
 ENV POSTGRES_DB=chooseit
 
-ADD 2local-user.sql /docker-entrypoint-initdb.d/
+ADD local-user.sql /docker-entrypoint-initdb.d/
