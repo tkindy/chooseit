@@ -8,8 +8,12 @@ import java.nio.ByteBuffer
 import java.util.*
 import javax.inject.Inject
 
+private const val MAX_NAME_LENGTH = 63;
+
 class RoomManager @Inject constructor() {
-    fun makeNewRoom(): String {
+    fun makeNewRoom(name: String): String {
+        if (name.length > MAX_NAME_LENGTH) throw NameTooLongException()
+
         val uuid = UUID.randomUUID()
         val bytes = ByteBuffer.wrap(Array<Byte>(16) { 0 }.toByteArray())
             .putLong(uuid.mostSignificantBits)
@@ -19,6 +23,7 @@ class RoomManager @Inject constructor() {
 
         Rooms.insert {
             it.id to id
+            it.name to name
         }
 
         return id
@@ -28,3 +33,5 @@ class RoomManager @Inject constructor() {
         return Rooms.findById(id) ?: throw IllegalArgumentException("Invalid ID: $id")
     }
 }
+
+class NameTooLongException : IllegalArgumentException()

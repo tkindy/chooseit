@@ -1,7 +1,9 @@
 package com.tylerkindy.chooseit.routes
 
+import com.tylerkindy.chooseit.data.NameTooLongException
 import com.tylerkindy.chooseit.data.RoomManager
 import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
 import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Location
 import io.ktor.locations.get
@@ -17,9 +19,13 @@ class RoomRoutes @Inject constructor(
     private val roomManager: RoomManager
 ) {
     val buildRoomRoute: Route.() -> Unit = {
-        post("/new") {
-            val id = roomManager.makeNewRoom()
-            call.respond(id)
+        post<NewRoomRoute> { params ->
+            try {
+                val id = roomManager.makeNewRoom(params.name)
+                call.respond(id)
+            } catch (e: NameTooLongException) {
+                call.respond(HttpStatusCode.BadRequest, "NAME_TOO_LONG")
+            }
         }
 
         get<RoomRoute.Status> { params ->
@@ -42,6 +48,10 @@ class RoomRoutes @Inject constructor(
         }
     }
 }
+
+@KtorExperimentalLocationsAPI
+@Location("/new")
+data class NewRoomRoute(val name: String)
 
 @KtorExperimentalLocationsAPI
 @Location("{id}")
