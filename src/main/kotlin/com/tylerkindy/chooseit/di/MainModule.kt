@@ -44,6 +44,7 @@ class MainModule {
 
             routing {
                 route("/room", roomRoutes.buildRoomRoute)
+                route("/rooms", roomRoutes.buildRoomRoute)
                 post("/new-room") {
                     val id = roomManager.makeNewRoom()
                     call.respond(id)
