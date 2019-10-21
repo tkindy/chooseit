@@ -5,3 +5,8 @@ CREATE TABLE rooms (
   id varchar(30) PRIMARY KEY,
   flip boolean DEFAULT NULL
 );
+
+--changeset tkindy:add_room_name
+ALTER TABLE rooms
+    ADD COLUMN name varchar(64)
+;
