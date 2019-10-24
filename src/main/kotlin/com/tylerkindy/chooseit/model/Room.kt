@@ -16,3 +16,20 @@ object Rooms : Table<Room>("rooms") {
     val name by varchar("name").bindTo { it.name }
     val flip by boolean("flip").bindTo { it.flip }
 }
+
+val Room.view: RoomView
+    get() = RoomView(
+        id = id,
+        name = name,
+        state = when (flip) {
+            true -> "Heads"
+            false -> "Tails"
+            null -> "Not yet flipped"
+        }
+    )
+
+data class RoomView(
+    val id: String,
+    val name: String,
+    val state: String
+)
