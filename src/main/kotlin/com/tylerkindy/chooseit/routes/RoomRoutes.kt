@@ -23,9 +23,8 @@ class RoomRoutes @Inject constructor(
     val buildRoomRoute: Route.() -> Unit = {
         post<NewRoomRoute> { params ->
             try {
-                val id = roomManager.makeNewRoom(params.name)
+                val id = roomManager.makeNewRoom(params.name, params.singleFlip)
                 val room = roomManager.getRoom(id)
-                println(room.view)
                 call.respond(room.view)
             } catch (e: NameTooLongException) {
                 call.respond(HttpStatusCode.BadRequest, "NAME_TOO_LONG")
@@ -48,7 +47,7 @@ class RoomRoutes @Inject constructor(
 
 @KtorExperimentalLocationsAPI
 @Location("/")
-data class NewRoomRoute(val name: String)
+data class NewRoomRoute(val name: String, val singleFlip: Boolean)
 
 @KtorExperimentalLocationsAPI
 @Location("{id}")

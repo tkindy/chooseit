@@ -14,7 +14,7 @@ private const val MAX_NAME_LENGTH = 63;
 
 @KtorExperimentalAPI
 class RoomManager @Inject constructor() {
-    fun makeNewRoom(name: String): String {
+    fun makeNewRoom(name: String, singleFlip: Boolean): String {
         if (name.length > MAX_NAME_LENGTH) throw NameTooLongException()
 
         val uuid = UUID.randomUUID()
@@ -27,6 +27,7 @@ class RoomManager @Inject constructor() {
         Rooms.insert {
             it.id to id
             it.name to name
+            it.singleFlip to singleFlip
         }
 
         return id
