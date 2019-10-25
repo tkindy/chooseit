@@ -28,12 +28,15 @@ val Room.view: RoomView
             false -> "Tails"
             null -> "Not yet flipped"
         },
-        singleFlip = singleFlip
+        canFlip = canFlip
     )
+
+val Room.canFlip: Boolean
+    get() = !singleFlip || flip == null
 
 data class RoomView(
     val id: String,
     val name: String,
     val state: String,
-    val singleFlip: Boolean
+    val canFlip: Boolean
 )
