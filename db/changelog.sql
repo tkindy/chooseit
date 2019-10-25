@@ -13,5 +13,5 @@ ALTER TABLE rooms
 
 --changeset tkindy:add_max_flips
 ALTER TABLE rooms
-    ADD COLUMN singleFlip BOOLEAN
+    ADD COLUMN singleFlip BOOLEAN NOT NULL DEFAULT FALSE
 ;
