@@ -9,6 +9,7 @@ import me.liuwj.ktorm.entity.findById
 import java.nio.ByteBuffer
 import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random
 
 private const val MAX_NAME_LENGTH = 63;
 
@@ -31,6 +32,15 @@ class RoomManager @Inject constructor() {
         }
 
         return id
+    }
+
+    fun flip(roomId: String): Room {
+        val room = getRoom(roomId)
+        check(!room.singleFlip || room.flip == null) { "Room $roomId has already been flipped" }
+
+        room.flip = Random.nextBoolean()
+        room.flushChanges()
+        return room
     }
 
     fun getRoom(id: String): Room {

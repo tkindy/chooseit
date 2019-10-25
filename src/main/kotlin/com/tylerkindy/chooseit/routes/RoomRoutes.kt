@@ -37,10 +37,8 @@ class RoomRoutes @Inject constructor(
         }
 
         post<RoomRoute.Flip> { params ->
-            val room = roomManager.getRoom(params.room.id)
-            room.flip = Random.nextBoolean()
-            room.flushChanges()
-            call.respond("OK")
+            val room = roomManager.flip(params.room.id)
+            call.respond(room.view)
         }
     }
 }
