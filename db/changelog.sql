@@ -11,7 +11,7 @@ ALTER TABLE rooms
     ADD COLUMN name varchar(64)
 ;
 
---changeset tkindy:add_max_flips
+--changeset tkindy:add_single_flip
 ALTER TABLE rooms
     ADD COLUMN singleFlip BOOLEAN NOT NULL DEFAULT FALSE
 ;
