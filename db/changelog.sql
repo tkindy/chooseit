@@ -10,3 +10,8 @@ CREATE TABLE rooms (
 ALTER TABLE rooms
     ADD COLUMN name varchar(64)
 ;
+
+--changeset tkindy:add_max_flips
+ALTER TABLE rooms
+    ADD COLUMN maxFlips INTEGER
+;
