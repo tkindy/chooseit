@@ -27,11 +27,13 @@ val Room.view: RoomView
             true -> "Heads"
             false -> "Tails"
             null -> "Not yet flipped"
-        }
+        },
+        singleFlip = singleFlip
     )
 
 data class RoomView(
     val id: String,
     val name: String,
-    val state: String
+    val state: String,
+    val singleFlip: Boolean
 )
