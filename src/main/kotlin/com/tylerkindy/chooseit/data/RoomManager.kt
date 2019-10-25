@@ -2,6 +2,7 @@ package com.tylerkindy.chooseit.data
 
 import com.tylerkindy.chooseit.model.Room
 import com.tylerkindy.chooseit.model.Rooms
+import io.ktor.features.BadRequestException
 import io.ktor.features.NotFoundException
 import io.ktor.util.KtorExperimentalAPI
 import me.liuwj.ktorm.dsl.insert
@@ -36,7 +37,10 @@ class RoomManager @Inject constructor() {
 
     fun flip(roomId: String): Room {
         val room = getRoom(roomId)
-        check(!room.singleFlip || room.flip == null) { "Room $roomId has already been flipped" }
+
+        if (room.singleFlip && room.flip != null) {
+            throw BadRequestException("Room $roomId has already been flipped")
+        }
 
         room.flip = Random.nextBoolean()
         room.flushChanges()
